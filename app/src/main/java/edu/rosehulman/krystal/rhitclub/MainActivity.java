@@ -65,8 +65,8 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_settings:
                 return true;
             case R.id.log_out:
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction ft = fragmentManager.beginTransaction();
+                FragmentManager fm = getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
                 ft.replace(R.id.content_main, mLoginFrag);
                 ft.addToBackStack(null);
                 ft.commit();
