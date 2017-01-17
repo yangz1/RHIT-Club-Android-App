@@ -3,13 +3,24 @@ package edu.rosehulman.krystal.rhitclub;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+
+import edu.rosehulman.krystal.rhitclub.fragments.HomePageFragment;
+import edu.rosehulman.krystal.rhitclub.fragments.LoginFragment;
+
+import static android.R.attr.fragment;
 
 public class MainActivity extends AppCompatActivity {
+    private LoginFragment mLoginFrag;
+    private HomePageFragment mHomeFrag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +37,15 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+
+        if (savedInstanceState == null) {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            mLoginFrag = new LoginFragment();
+            ft.add(R.id.content_main, mLoginFrag);
+            ft.commit();
+        }
+
     }
 
     @Override
@@ -40,13 +60,20 @@ public class MainActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()){
+            case R.id.action_settings:
+                return true;
+            case R.id.log_out:
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction ft = fragmentManager.beginTransaction();
+                ft.replace(R.id.content_main, mLoginFrag);
+                ft.addToBackStack(null);
+                ft.commit();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
+
 }
