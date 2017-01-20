@@ -4,10 +4,11 @@
     android:layout_height="match_parent"
     tools:context="edu.rosehulman.krystal.rhitclub.fragments.ClubListFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <android.support.v7.widget.RecyclerView
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:id="@+id/club_list_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent"/>
 
 </FrameLayout>
