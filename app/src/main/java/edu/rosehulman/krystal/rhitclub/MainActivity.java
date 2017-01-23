@@ -16,14 +16,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
+import java.util.EventListener;
+
 import edu.rosehulman.krystal.rhitclub.fragments.ClubListFragment;
+import edu.rosehulman.krystal.rhitclub.fragments.EventListFragment;
 import edu.rosehulman.krystal.rhitclub.fragments.HomePageFragment;
 import edu.rosehulman.krystal.rhitclub.fragments.LoginFragment;
 import edu.rosehulman.krystal.rhitclub.utils.Club;
+import edu.rosehulman.krystal.rhitclub.utils.Event;
 
 import static android.R.attr.fragment;
 
-public class MainActivity extends AppCompatActivity implements LoginFragment.OnStartPressedListener, ClubListFragment.OnClubSelectedListener, HomePageFragment.OnClubButtonSelectedListener{
+public class MainActivity extends AppCompatActivity implements LoginFragment.OnStartPressedListener,
+        ClubListFragment.OnClubSelectedListener, HomePageFragment.OnHomepageSelectedListener,
+        EventListFragment.OnEventSelectedListener{
     private LoginFragment mLoginFrag;
     private HomePageFragment mHomeFrag;
 
@@ -70,10 +76,9 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnS
             case R.id.action_settings:
                 return true;
             case R.id.log_out:
-                FragmentManager fm = getSupportFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.content_main, mLoginFrag);
-                ft.addToBackStack(null);
+                ft.addToBackStack("Loginpage");
                 ft.commit();
                 return true;
             default:
@@ -96,6 +101,15 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnS
         Fragment clubListFrag = new ClubListFragment();
         ft.replace(R.id.content_main,clubListFrag);
         ft.addToBackStack("Club_List");
+        ft.commit();
+    }
+
+    @Override
+    public void onEventButtonSelected() {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment eventListFrag = new EventListFragment();
+        ft.replace(R.id.content_main,eventListFrag);
+        ft.addToBackStack("Event_List");
         ft.commit();
     }
 
@@ -123,4 +137,9 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnS
 //        ft.commit();
 //    }
 
+
+    @Override
+    public void onEventSelected(Event event) {
+
+    }
 }
