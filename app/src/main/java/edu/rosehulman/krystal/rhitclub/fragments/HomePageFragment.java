@@ -22,7 +22,7 @@ import edu.rosehulman.krystal.rhitclub.R;
  * A simple {@link Fragment} subclass.
  */
 public class HomePageFragment extends Fragment {
-    private Context mContext;
+    private OnClubButtonSelectedListener mListener;
 
 
     public HomePageFragment() {
@@ -39,10 +39,35 @@ public class HomePageFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home_page, container, false);
-
-
+        LinearLayout club_button = (LinearLayout)view.findViewById(R.id.club_button);
+        club_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.onClubButtonSelected();
+            }
+        });
         return view;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnClubButtonSelectedListener) {
+            mListener = (OnClubButtonSelectedListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnClubButtonSelectedListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    public interface OnClubButtonSelectedListener{
+        void onClubButtonSelected();
+    }
 
 }

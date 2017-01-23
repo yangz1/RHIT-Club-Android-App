@@ -8,17 +8,22 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.transition.Slide;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
+import edu.rosehulman.krystal.rhitclub.fragments.ClubListFragment;
 import edu.rosehulman.krystal.rhitclub.fragments.HomePageFragment;
 import edu.rosehulman.krystal.rhitclub.fragments.LoginFragment;
+import edu.rosehulman.krystal.rhitclub.utils.Club;
 
 import static android.R.attr.fragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LoginFragment.OnStartPressedListener, ClubListFragment.OnClubSelectedListener, HomePageFragment.OnClubButtonSelectedListener{
     private LoginFragment mLoginFrag;
     private HomePageFragment mHomeFrag;
 
@@ -75,5 +80,47 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+
+    public  void onStartPressed() {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        mHomeFrag = new HomePageFragment();
+        ft.replace(R.id.content_main,mHomeFrag);
+        ft.addToBackStack("Homepage");
+        ft.commit();
+    }
+
+    @Override
+    public void onClubButtonSelected() {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment clubListFrag = new ClubListFragment();
+        ft.replace(R.id.content_main,clubListFrag);
+        ft.addToBackStack("Club_List");
+        ft.commit();
+    }
+
+    @Override
+    public void onClubSelected(Club club) {
+//        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//        Fragment fragment = PaintingDetailFragment.newInstance(painting);
+//
+//        // TODO: Create a transition.
+//        Slide slideTransition = new Slide(Gravity.RIGHT);
+//        slideTransition.setDuration(200);
+//        fragment.setEnterTransition(slideTransition);
+//
+//        ft.replace(R.id.fragment_container, fragment);
+//        ft.addToBackStack("detail");
+//        ft.commit();
+    }
+
+//
+//    @Override
+//    public void onSwipe() {
+//        FragmentManager fm = getSupportFragmentManager();
+//        FragmentTransaction ft = fm.beginTransaction();
+//        fm.popBackStackImmediate();
+//        ft.commit();
+//    }
 
 }

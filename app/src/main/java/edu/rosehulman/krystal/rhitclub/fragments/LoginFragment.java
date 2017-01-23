@@ -1,6 +1,7 @@
 package edu.rosehulman.krystal.rhitclub.fragments;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -20,6 +21,8 @@ import edu.rosehulman.krystal.rhitclub.R;
  * A simple {@link Fragment} subclass.
  */
 public class LoginFragment extends Fragment {
+
+    private OnStartPressedListener mListener;
 
 
     public LoginFragment() {
@@ -44,17 +47,37 @@ public class LoginFragment extends Fragment {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fragment fragment = new HomePageFragment();
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction ft = fragmentManager.beginTransaction();
-                ft.replace(R.id.content_main, fragment);
-                ft.addToBackStack(null);
-                ft.commit();
+                mListener.onStartPressed();
+//                Fragment fragment = new HomePageFragment();
+//                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//                FragmentTransaction ft = fragmentManager.beginTransaction();
+//                ft.replace(R.id.content_main, fragment);
+//                ft.addToBackStack(null);
+//                ft.commit();
             }
         });
-        //}
-
         return view;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnStartPressedListener) {
+            mListener = (OnStartPressedListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnStartPressedListener");
+        }
+    }
+
+    @Override
+    public void onDetach(){
+        super.onDetach();
+        mListener = null;
+    }
+
+
+    public interface OnStartPressedListener {
+        public void onStartPressed();
+    }
 }

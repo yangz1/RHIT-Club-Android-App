@@ -44,6 +44,7 @@ public class Club {
         clubs.add(new Club("ISA"));
         clubs.add(new Club("SASE"));
         clubs.add(new Club("GPE"));
+        clubs.add(new Club("Robotics"));
         return clubs;
     }
 }
