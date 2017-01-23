@@ -8,16 +8,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.transition.Slide;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 
-import java.util.EventListener;
-
+import edu.rosehulman.krystal.rhitclub.fragments.ClubDetailFragment;
 import edu.rosehulman.krystal.rhitclub.fragments.ClubListFragment;
 import edu.rosehulman.krystal.rhitclub.fragments.EventListFragment;
 import edu.rosehulman.krystal.rhitclub.fragments.HomePageFragment;
@@ -25,11 +20,9 @@ import edu.rosehulman.krystal.rhitclub.fragments.LoginFragment;
 import edu.rosehulman.krystal.rhitclub.utils.Club;
 import edu.rosehulman.krystal.rhitclub.utils.Event;
 
-import static android.R.attr.fragment;
-
 public class MainActivity extends AppCompatActivity implements LoginFragment.OnStartPressedListener,
         ClubListFragment.OnClubSelectedListener, HomePageFragment.OnHomepageSelectedListener,
-        EventListFragment.OnEventSelectedListener{
+        EventListFragment.OnEventSelectedListener, ClubDetailFragment.OnFlingListener{
     private LoginFragment mLoginFrag;
     private HomePageFragment mHomeFrag;
 
@@ -115,31 +108,24 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnS
 
     @Override
     public void onClubSelected(Club club) {
-//        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//        Fragment fragment = PaintingDetailFragment.newInstance(painting);
-//
-//        // TODO: Create a transition.
-//        Slide slideTransition = new Slide(Gravity.RIGHT);
-//        slideTransition.setDuration(200);
-//        fragment.setEnterTransition(slideTransition);
-//
-//        ft.replace(R.id.fragment_container, fragment);
-//        ft.addToBackStack("detail");
-//        ft.commit();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment fragment = ClubDetailFragment.newInstance(club);
+        ft.replace(R.id.content_main, fragment);
+        ft.addToBackStack("Club_detail");
+        ft.commit();
     }
 
-//
-//    @Override
-//    public void onSwipe() {
-//        FragmentManager fm = getSupportFragmentManager();
-//        FragmentTransaction ft = fm.beginTransaction();
-//        fm.popBackStackImmediate();
-//        ft.commit();
-//    }
-
+    @Override
+    public void onSwipe() {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        fm.popBackStackImmediate();
+        ft.commit();
+    }
 
     @Override
     public void onEventSelected(Event event) {
 
     }
+
 }

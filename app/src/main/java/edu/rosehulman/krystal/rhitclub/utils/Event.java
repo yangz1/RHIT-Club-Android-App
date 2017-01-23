@@ -3,6 +3,8 @@ package edu.rosehulman.krystal.rhitclub.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.rosehulman.krystal.rhitclub.R;
+
 /**
  * Created by KrystalYang on 1/20/17.
  */
@@ -51,8 +53,8 @@ public class Event {
         // https://upload.wikimedia.org/wikipedia/en/d/d1/Picasso_three_musicians_moma_2006.jpg
 
         List<Event> events = new ArrayList<>();
-        events.add(new Event("Chinese New Year",new Club("ISA")));
-        events.add(new Event("Picnic",new Club("SASE")));
+        events.add(new Event("Chinese New Year",new Club("ISA","This is a Club for international students.","Andrew Chen: chena@rose-hulman.edu", R.drawable.sleeve)));
+        events.add(new Event("Picnic",new Club("GPE","This is a club for ME and CPE students. Have fun!","John Smith: smithJ@rose-hulman.edu",R.drawable.rhev)));
         return events;
     }
 }
