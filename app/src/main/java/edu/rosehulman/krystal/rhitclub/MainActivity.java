@@ -14,15 +14,19 @@ import android.view.MenuItem;
 
 import edu.rosehulman.krystal.rhitclub.fragments.ClubDetailFragment;
 import edu.rosehulman.krystal.rhitclub.fragments.ClubListFragment;
+import edu.rosehulman.krystal.rhitclub.fragments.EventDetailFragment;
 import edu.rosehulman.krystal.rhitclub.fragments.EventListFragment;
 import edu.rosehulman.krystal.rhitclub.fragments.HomePageFragment;
 import edu.rosehulman.krystal.rhitclub.fragments.LoginFragment;
+import edu.rosehulman.krystal.rhitclub.fragments.MyAccountFragment;
 import edu.rosehulman.krystal.rhitclub.utils.Club;
 import edu.rosehulman.krystal.rhitclub.utils.Event;
+import edu.rosehulman.krystal.rhitclub.utils.User;
 
 public class MainActivity extends AppCompatActivity implements LoginFragment.OnStartPressedListener,
         ClubListFragment.OnClubSelectedListener, HomePageFragment.OnHomepageSelectedListener,
-        EventListFragment.OnEventSelectedListener, ClubDetailFragment.OnFlingListener{
+        EventListFragment.OnEventSelectedListener, ClubDetailFragment.OnFlingListener,
+        MyAccountFragment.OnMyAccountSelectedListener{
     private LoginFragment mLoginFrag;
     private HomePageFragment mHomeFrag;
 
@@ -69,9 +73,11 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnS
             case R.id.action_settings:
                 return true;
             case R.id.log_out:
+                FragmentManager fm = getSupportFragmentManager();
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.content_main, mLoginFrag);
-                ft.addToBackStack("Loginpage");
+                LoginFragment login = new LoginFragment();
+                ft.replace(R.id.content_main, login);
+                fm.popBackStackImmediate();
                 ft.commit();
                 return true;
             default:
@@ -79,6 +85,15 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnS
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        FragmentManager fm = getSupportFragmentManager();
+        if(fm.getBackStackEntryCount() != 0) {
+            fm.popBackStack();
+        } else {
+            super.onBackPressed();
+        }
+    }
 
     public  void onStartPressed() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -125,7 +140,15 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnS
 
     @Override
     public void onEventSelected(Event event) {
-
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment fragment = EventDetailFragment.newInstance(event);
+        ft.replace(R.id.content_main, fragment);
+        ft.addToBackStack("Event_detail");
+        ft.commit();
     }
 
+    @Override
+    public void OnMyAccountSelected(User user) {
+
+    }
 }

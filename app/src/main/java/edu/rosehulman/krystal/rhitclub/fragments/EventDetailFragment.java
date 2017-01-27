@@ -18,22 +18,23 @@ import android.widget.TextView;
 
 import edu.rosehulman.krystal.rhitclub.R;
 import edu.rosehulman.krystal.rhitclub.utils.Club;
+import edu.rosehulman.krystal.rhitclub.utils.Event;
 
-public class ClubDetailFragment extends Fragment {
-    private static final String ARG_CLUB = "club";
+public class EventDetailFragment extends Fragment {
+    private static final String ARG_EVENT = "event";
 
-    private Club mClub;
-    private OnFlingListener mListener;
+    private Event mEvent;
+    private ClubDetailFragment.OnFlingListener mListener;
     private GestureDetectorCompat mGest;
 
-    public ClubDetailFragment() {
+    public EventDetailFragment() {
         // Required empty public constructor
     }
 
-    public static ClubDetailFragment newInstance(Club club) {
-        ClubDetailFragment fragment = new ClubDetailFragment();
+    public static EventDetailFragment newInstance(Event event) {
+        EventDetailFragment fragment = new EventDetailFragment();
         Bundle args = new Bundle();
-        args.putParcelable(ARG_CLUB, club);
+        args.putParcelable(ARG_EVENT, event);
         fragment.setArguments(args);
         return fragment;
     }
@@ -42,23 +43,22 @@ public class ClubDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mClub = getArguments().getParcelable(ARG_CLUB);
+            mEvent = getArguments().getParcelable(ARG_EVENT);
         }
-        mGest = new GestureDetectorCompat(getContext(),new MyGestureDetector());
+        mGest = new GestureDetectorCompat(getContext(),new EventDetailFragment.MyGestureDetector());
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        actionBar.setTitle(mClub.getName());
+        actionBar.setTitle(mEvent.getName());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_club_detail, container, false);
+        View view = inflater.inflate(R.layout.fragment_event_detail, container, false);
         view.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -66,23 +66,23 @@ public class ClubDetailFragment extends Fragment {
                 return true;
             }
         });
-        TextView clubName = (TextView) view.findViewById(R.id.club_name);
-        TextView clubDescription = (TextView) view.findViewById(R.id.club_description);
-        TextView clubOfficer = (TextView) view.findViewById(R.id.club_officer);
-        ImageView imageView = (ImageView) view.findViewById(R.id.club_detail_image);
+        TextView eventName = (TextView) view.findViewById(R.id.event_name);
+        TextView eventHolder = (TextView) view.findViewById(R.id.event_holder);
+        TextView eventOfficer = (TextView) view.findViewById(R.id.event_officer);
+        ImageView eventImg = (ImageView) view.findViewById(R.id.event_detail_image);
 
-        clubName.setText(mClub.getName());
-        clubDescription.setText(mClub.getDescription());
-        clubOfficer.setText(mClub.getOfficer());
-        imageView.setImageResource(mClub.getImage());
+        eventName.setText(mEvent.getName());
+        eventHolder.setText(mEvent.getHolder().getName());
+        eventOfficer.setText(mEvent.getHolder().getOfficer());
+
         return view;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFlingListener) {
-            mListener = (OnFlingListener) context;
+        if (context instanceof ClubDetailFragment.OnFlingListener) {
+            mListener = (ClubDetailFragment.OnFlingListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFlingListener");
@@ -93,11 +93,6 @@ public class ClubDetailFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-
-    public interface OnFlingListener {
-        void onSwipe();
     }
 
 

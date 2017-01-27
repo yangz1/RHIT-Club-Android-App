@@ -1,5 +1,8 @@
 package edu.rosehulman.krystal.rhitclub.utils;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,13 +12,42 @@ import edu.rosehulman.krystal.rhitclub.R;
  * Created by KrystalYang on 1/20/17.
  */
 
-public class Event {
+public class Event implements Parcelable {
     private String name;
     private Club holder;
 
     public Event(String name, Club club) {
         this.name = name;
         this.holder = club;
+    }
+
+    protected Event(Parcel in){
+        this.name = in.readString();
+        this.holder = in.readParcelable(Club.class.getClassLoader());
+    }
+
+    public static final Creator<Event> CREATOR = new Creator<Event>() {
+        @Override
+        public Event createFromParcel(Parcel in) {
+            return new Event(in);
+        }
+
+        @Override
+        public Event[] newArray(int size) {
+            return new Event[size];
+        }
+    };
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(name);
+        parcel.writeParcelable(holder,i);
     }
 
     public String getName() {

@@ -30,7 +30,7 @@
 
             <TextView
                 android:text="CLUB"
-                style="@style/HomepageText"
+                style="@style/TitleText"
                 android:layout_marginLeft="100dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
 
             <TextView
                 android:text="EVENT"
-                style="@style/HomepageText"
+                style="@style/TitleText"
                 android:layout_marginLeft="100dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

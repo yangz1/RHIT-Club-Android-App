@@ -9,4 +9,11 @@
     <string name="sign_in">Sign In</string>
     <string name="register">Register</string>
     <string name="holder_is">Holder: %s</string>
+    <string name="club">Club</string>
+    <string name="event_list">Event List</string>
+    <string name="club_list">Club List</string>
+    <string name="event">Event</string>
+    <string name="my_account">My Account</string>
+    <string name="my_clubs">My Clubs</string>
+    <string name="my_events">My Events</string>
 </resources>

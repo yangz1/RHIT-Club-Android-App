@@ -27,6 +27,9 @@ public class Club implements Parcelable{
 
     protected Club(Parcel in){
         this.name = in.readString();
+        this.description = in.readString();
+        this.officer = in.readString();
+        this.image = in.readInt();
     }
 
 

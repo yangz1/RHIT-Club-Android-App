@@ -1,0 +1,54 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="edu.rosehulman.krystal.rhitclub.fragments.MyAccountFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/my_account"
+            android:paddingTop="20dp"
+            android:text="@string/my_account"
+            style="@style/TitleText"/>
+
+        <TextView
+            android:id="@+id/my_clubs"
+            android:layout_below="@id/my_account"
+            android:text="@string/my_clubs"
+            android:paddingLeft="20dp"
+            android:layout_centerHorizontal="false"
+            style="@style/SubText"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/my_clubs_recycler"
+            android:paddingLeft="20dp"
+            android:layout_below="@id/my_clubs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <TextView
+            android:id="@+id/my_events"
+            android:layout_below="@id/my_clubs_recycler"
+            android:text="@string/my_events"
+            android:paddingLeft="20dp"
+            android:layout_centerHorizontal="false"
+            style="@style/SubText"/>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/my_events_recycler"
+            android:paddingLeft="20dp"
+            android:layout_below="@id/my_events"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </RelativeLayout>
+
+</FrameLayout>

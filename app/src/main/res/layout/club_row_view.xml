@@ -17,10 +17,10 @@
             android:id="@+id/club_text_view"
             android:padding="8dp"
             android:layout_weight="1"
+            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="32sp" />
-
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/add_club"

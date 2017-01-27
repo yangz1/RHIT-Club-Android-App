@@ -9,28 +9,28 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:text="@string/club"
-            android:layout_marginTop="20dp"
+            android:text="@string/event"
             style="@style/TitleText"
-            android:id="@+id/club_name" />
+            android:layout_marginTop="20dp"
+            android:id="@+id/event_name" />
 
         <TextView
+            android:layout_below="@id/event_name"
             android:text="@string/club"
-            android:layout_below="@id/club_name"
             style="@style/SubText"
-            android:id="@+id/club_description" />
+            android:id="@+id/event_holder" />
 
         <TextView
-            android:layout_below="@id/club_description"
+            android:layout_below="@id/event_holder"
             android:text="@string/club"
             style="@style/DetailText"
-            android:id="@+id/club_officer" />
+            android:id="@+id/event_officer" />
 
         <ImageView
-            android:layout_below="@id/club_officer"
+            android:layout_below="@id/event_officer"
             style="@style/ImageStyle"
             app:srcCompat="@drawable/sleeve"
-            android:id="@+id/club_detail_image" />
+            android:id="@+id/event_detail_image" />
 
     </RelativeLayout>
 </FrameLayout>
