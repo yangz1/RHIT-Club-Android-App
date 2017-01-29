@@ -14,23 +14,41 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import edu.rosehulman.krystal.rhitclub.R;
+import edu.rosehulman.krystal.rhitclub.utils.Event;
 import edu.rosehulman.krystal.rhitclub.utils.EventAdapter;
 import edu.rosehulman.krystal.rhitclub.utils.User;
 import edu.rosehulman.krystal.rhitclub.utils.UserAdapter;
 
 public class MyAccountFragment extends Fragment {
+    private static final String ARG_USER = "user";
 
+    private User mUser;
     private MyAccountFragment.OnMyAccountSelectedListener mListener;
-    private UserAdapter mAdapter;
+    private UserAdapter mClubAdapter;
+    private UserAdapter mEventAdapter;
 
     public MyAccountFragment() {
         // Required empty public constructor
     }
 
+    public static MyAccountFragment newInstance(User user) {
+        MyAccountFragment fragment = new MyAccountFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(ARG_USER, user);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAdapter = new UserAdapter(mListener,getContext());
+        if (getArguments() != null) {
+            mUser = getArguments().getParcelable(ARG_USER);
+        }
+        mClubAdapter = new UserAdapter(mListener,getContext(),true);
+        mClubAdapter.setmClubs(mUser.getmClubs());
+        mEventAdapter = new UserAdapter(mListener,getContext(),false);
+        mEventAdapter.setmEvents(mUser.getmEvents());
     }
 
     @Override
@@ -41,11 +59,10 @@ public class MyAccountFragment extends Fragment {
         RecyclerView eventRecyclerView = (RecyclerView)view.findViewById(R.id.my_events_recycler);
         clubRecyclerView.setHasFixedSize(true);
         clubRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        clubRecyclerView.setAdapter(mAdapter);
-        
-        eventRecyclerView.setHasFixedSize(true);
+        clubRecyclerView.setAdapter(mClubAdapter);
+
         eventRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        eventRecyclerView.setAdapter(mAdapter);
+        eventRecyclerView.setAdapter(mEventAdapter);
         return view;
     }
 

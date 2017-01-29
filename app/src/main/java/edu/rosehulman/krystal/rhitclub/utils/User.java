@@ -15,10 +15,10 @@ import edu.rosehulman.krystal.rhitclub.R;
 public class User implements Parcelable{
 
     private String mName;
-    private Parcelable[] mClubs;
-    private Parcelable[] mEvents;
+    private List<Club> mClubs;
+    private List<Event> mEvents;
 
-    public User(String mName, Parcelable[] mClubs, Parcelable[] mEvents) {
+    public User(String mName, List<Club> mClubs, List<Event> mEvents) {
         this.mName = mName;
         this.mClubs = mClubs;
         this.mEvents = mEvents;
@@ -26,8 +26,8 @@ public class User implements Parcelable{
 
     protected User(Parcel in){
         this.mName = in.readString();
-        this.mClubs = in.readParcelableArray(Club.class.getClassLoader());
-        this.mEvents = in.readParcelableArray(Event.class.getClassLoader());
+        in.readList(mClubs,Club.class.getClassLoader());
+        in.readList(mEvents,Event.class.getClassLoader());
     }
 
 
@@ -51,19 +51,19 @@ public class User implements Parcelable{
         this.mName = mName;
     }
 
-    public Parcelable[] getmClubs() {
+    public List<Club> getmClubs() {
         return mClubs;
     }
 
-    public void setmClubs(Parcelable[] mClubs) {
+    public void setmClubs(List<Club> mClubs) {
         this.mClubs = mClubs;
     }
 
-    public Parcelable[] getmEvents() {
+    public List<Event> getmEvents() {
         return mEvents;
     }
 
-    public void setmEvents(Parcelable[] mEvents) {
+    public void setmEvents(List<Event> mEvents) {
         this.mEvents = mEvents;
     }
 
@@ -79,7 +79,7 @@ public class User implements Parcelable{
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(mName);
-        parcel.writeParcelableArray(mClubs,i);
-        parcel.writeParcelableArray(mEvents,i);
+        parcel.writeList(mClubs);
+        parcel.writeList(mEvents);
     }
 }

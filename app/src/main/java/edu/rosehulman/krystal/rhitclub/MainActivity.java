@@ -1,6 +1,7 @@
 package edu.rosehulman.krystal.rhitclub;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.rosehulman.krystal.rhitclub.fragments.ClubDetailFragment;
 import edu.rosehulman.krystal.rhitclub.fragments.ClubListFragment;
@@ -29,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnS
         MyAccountFragment.OnMyAccountSelectedListener{
     private LoginFragment mLoginFrag;
     private HomePageFragment mHomeFrag;
+    private FloatingActionButton mFab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,17 +42,18 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnS
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        final User user = new User("Krystal",Club.initializeClubs(),Event.initializeEvents());
+        mFab = (FloatingActionButton) findViewById(R.id.fab);
+        mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                OnMyAccountSelected(user);
             }
         });
 
 
         if (savedInstanceState == null) {
+            mFab.setVisibility(View.GONE);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             mLoginFrag = new LoginFragment();
             ft.add(R.id.content_main, mLoginFrag);
@@ -73,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnS
             case R.id.action_settings:
                 return true;
             case R.id.log_out:
+                mFab.setVisibility(View.GONE);
                 FragmentManager fm = getSupportFragmentManager();
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 LoginFragment login = new LoginFragment();
@@ -96,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnS
     }
 
     public  void onStartPressed() {
+        mFab.setVisibility(View.VISIBLE);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         mHomeFrag = new HomePageFragment();
         ft.replace(R.id.content_main,mHomeFrag);
@@ -149,6 +157,10 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnS
 
     @Override
     public void OnMyAccountSelected(User user) {
-
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment myAccountFrag = MyAccountFragment.newInstance(user);
+        ft.replace(R.id.content_main,myAccountFrag);
+        ft.addToBackStack("my_account");
+        ft.commit();
     }
 }
