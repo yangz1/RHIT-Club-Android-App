@@ -31,6 +31,15 @@
             android:background="@drawable/ic_add_circle_outline_black_48dp"
             />
 
+        <Button
+            android:id="@+id/subscribe_club"
+            android:layout_marginRight="10dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_flag_black_48dp"
+            />
+
     </LinearLayout>
 
 </android.support.v7.widget.CardView>

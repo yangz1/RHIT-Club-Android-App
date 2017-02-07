@@ -9,15 +9,15 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/club_list"
-        android:background="@color/grey"
-        android:textSize="30dp"
-        android:textStyle="bold"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/club_list"
+            android:background="@color/grey"
+            android:textSize="30dp"
+            android:textStyle="bold"/>
 
     <android.support.v7.widget.RecyclerView
         android:paddingTop="4dp"

@@ -42,8 +42,6 @@ public class ClubListFragment extends Fragment {
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -69,4 +67,5 @@ public class ClubListFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
+
 }

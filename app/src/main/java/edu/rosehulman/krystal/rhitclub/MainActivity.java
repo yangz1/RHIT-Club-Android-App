@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnS
     private LoginFragment mLoginFrag;
     private HomePageFragment mHomeFrag;
     private FloatingActionButton mFab;
+    private Menu mMenu;
+    private static User mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,15 +44,14 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnS
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final User user = new User("Krystal",Club.initializeClubs(),Event.initializeEvents());
+        mUser = new User("Krystal",Club.initializeClubs(),Event.initializeEvents());
         mFab = (FloatingActionButton) findViewById(R.id.fab);
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                OnMyAccountSelected(user);
+                OnMyAccountSelected(mUser);
             }
         });
-
 
         if (savedInstanceState == null) {
             mFab.setVisibility(View.GONE);
@@ -66,6 +67,9 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnS
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        mMenu = menu;
+        menu.findItem(R.id.menu_home).setVisible(false);
+        menu.findItem(R.id.log_out).setVisible(false);
         return true;
     }
 
@@ -74,22 +78,33 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnS
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
         switch (item.getItemId()){
             case R.id.action_settings:
                 return true;
             case R.id.log_out:
                 mFab.setVisibility(View.GONE);
-                FragmentManager fm = getSupportFragmentManager();
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                LoginFragment login = new LoginFragment();
-                ft.replace(R.id.content_main, login);
+                mMenu.findItem(R.id.menu_home).setVisible(false);
+                mMenu.findItem(R.id.log_out).setVisible(false);
                 fm.popBackStackImmediate();
+                mLoginFrag = new LoginFragment();
+                ft.replace(R.id.content_main, mLoginFrag);
+                ft.commit();
+                return true;
+            case R.id.menu_home:
+                ft.replace(R.id.content_main, mHomeFrag);
+                ft.addToBackStack("Homepage");
                 ft.commit();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public static User getmUser(){
+        return mUser;
     }
 
     @Override
@@ -104,6 +119,8 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnS
 
     public  void onStartPressed() {
         mFab.setVisibility(View.VISIBLE);
+        mMenu.findItem(R.id.menu_home).setVisible(true);
+        mMenu.findItem(R.id.log_out).setVisible(true);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         mHomeFrag = new HomePageFragment();
         ft.replace(R.id.content_main,mHomeFrag);
@@ -157,10 +174,12 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnS
 
     @Override
     public void OnMyAccountSelected(User user) {
+        mUser = user;
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment myAccountFrag = MyAccountFragment.newInstance(user);
         ft.replace(R.id.content_main,myAccountFrag);
         ft.addToBackStack("my_account");
         ft.commit();
     }
+
 }

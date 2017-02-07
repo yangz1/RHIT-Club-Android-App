@@ -5,8 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -16,22 +14,18 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
-import edu.rosehulman.krystal.rhitclub.MainActivity;
 import edu.rosehulman.krystal.rhitclub.R;
 import edu.rosehulman.krystal.rhitclub.utils.GetData;
-import edu.rosehulman.krystal.rhitclub.utils.ok;
+import edu.rosehulman.krystal.rhitclub.utils.User;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class LoginFragment extends Fragment implements GetData.OkConsumer{
+public class LoginFragment extends Fragment implements GetData.UserConsumer{
 
     private OnStartPressedListener mListener;
-    private HashMap<String,String>  mOk;
     private EditText username;
 
     public LoginFragment() {
@@ -41,8 +35,6 @@ public class LoginFragment extends Fragment implements GetData.OkConsumer{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String urlStringOK = String.format(Locale.US,"https://club-app.csse.rose-hulman.edu:3000");
-        (new GetData(this)).execute(urlStringOK);
     }
 
     @Override
@@ -77,6 +69,7 @@ public class LoginFragment extends Fragment implements GetData.OkConsumer{
         super.onAttach(context);
         if (context instanceof OnStartPressedListener) {
             mListener = (OnStartPressedListener) context;
+
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnStartPressedListener");
@@ -89,15 +82,13 @@ public class LoginFragment extends Fragment implements GetData.OkConsumer{
         mListener = null;
     }
 
-    @Override
-    public void onOkLoaded(HashMap<String,String>  kk) {
-        Log.d("OK","OK Loaded");
-        this.mOk = kk;
-        username.setText(mOk.toString());
-    }
-
 
     public interface OnStartPressedListener {
         public void onStartPressed();
+    }
+
+    @Override
+    public void onUserLoaded(User user) {
+        // TODO
     }
 }

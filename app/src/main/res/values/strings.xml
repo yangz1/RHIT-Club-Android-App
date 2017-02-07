@@ -16,4 +16,13 @@
     <string name="my_account">My Account</string>
     <string name="my_clubs">My Clubs</string>
     <string name="my_events">My Events</string>
+    <string name="wantClub">Do you really want to join %s?</string>
+    <string name="subsClub">Do you really want to subscribe %s?</string>
+    <string name="wantEvent">Do you really want to sign up for %s?</string>
+    <string name="dontwantClub">Do you really want to quit %s?</string>
+    <string name="dontsubsClub">Do you really want to unsubscribe %s?</string>
+    <string name="dontwantEvent">Do you really want to cancel %s?</string>
+    <string name="my_subscribes">My Subscribes</string>
+    <string name="edit">EDIT</string>
+    <string name="add">ADD</string>
 </resources>

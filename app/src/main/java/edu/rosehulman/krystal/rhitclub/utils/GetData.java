@@ -14,36 +14,33 @@ import java.util.Map;
  * Created by KrystalYang on 1/29/17.
  */
 
-public class GetData extends AsyncTask<String, Void, HashMap<String,String>  > {
-    private OkConsumer mOk;
+public class GetData extends AsyncTask<String, Void, User  > {
+    private UserConsumer mUser;
 
-    public GetData(OkConsumer activity){
-        this.mOk = activity;
+    public GetData(UserConsumer activity){
+        this.mUser = activity;
     }
 
     @Override
-    protected HashMap<String,String> doInBackground(String... urlStrings) {
+    protected User doInBackground(String... urlStrings) {
         String urlString = urlStrings[0];
-        HashMap<String,String>  map = new HashMap<>();
+        User  user = null;
         Log.d("TAG",urlString);
-        String jsonString="";
         try {
-//            jsonString = new ObjectMapper().writeValueAsString(new URL(urlString));
-            map = new ObjectMapper().readValue(new URL(urlString), HashMap.class);
-            Log.d("kk loaded:",jsonString+"!");
+            user = new ObjectMapper().readValue(new URL(urlString), User.class);
         }catch (IOException e){
             Log.d("Tag","Error: cannot mapper");
         }
-        return map;
+        return user;
     }
 
     @Override
-    protected void onPostExecute(HashMap<String,String>   kk) {
-        super.onPostExecute(kk);
-        mOk.onOkLoaded(kk);
+    protected void onPostExecute(User   user) {
+        super.onPostExecute(user);
+        mUser.onUserLoaded(user);
     }
 
-    public interface OkConsumer{
-        public void onOkLoaded(HashMap<String,String>   kk);
+    public interface UserConsumer{
+        public void onUserLoaded(User   user);
     }
 }

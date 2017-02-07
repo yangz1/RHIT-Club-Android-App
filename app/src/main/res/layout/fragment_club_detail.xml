@@ -4,15 +4,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="edu.rosehulman.krystal.rhitclub.fragments.ClubDetailFragment">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <TextView
             android:text="@string/club"
             android:layout_marginTop="20dp"
             style="@style/TitleText"
             android:id="@+id/club_name" />
+
+        <TextView
+            android:paddingLeft="20dp"
+            android:id="@+id/club_edit"
+            android:paddingRight="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:visibility="gone"
+            android:textColor="@color/cyan"
+            android:text="@string/edit"
+            style="@style/DetailText" />
 
         <TextView
             android:text="@string/club"

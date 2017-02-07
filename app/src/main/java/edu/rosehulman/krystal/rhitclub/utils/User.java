@@ -17,11 +17,15 @@ public class User implements Parcelable{
     private String mName;
     private List<Club> mClubs;
     private List<Event> mEvents;
+    private List<Club> mSubs;
+    private boolean isOfficer;
 
     public User(String mName, List<Club> mClubs, List<Event> mEvents) {
         this.mName = mName;
         this.mClubs = mClubs;
         this.mEvents = mEvents;
+        this.mSubs = new ArrayList<>();
+        this.isOfficer = true;
     }
 
     protected User(Parcel in){
@@ -30,6 +34,54 @@ public class User implements Parcelable{
         in.readList(mEvents,Event.class.getClassLoader());
     }
 
+    public List<Club> getmSubs() {
+        return mSubs;
+    }
+
+    public void setmSubs(List<Club> mSubs) {
+        this.mSubs = mSubs;
+    }
+
+    public boolean isOfficer() {
+        return isOfficer;
+    }
+
+    public void setOfficer(boolean officer) {
+        isOfficer = officer;
+    }
+
+    public boolean addClub(Club club){
+        for(Club c:mClubs){
+            if(c.getName().equals(club.getName())){
+                mClubs.remove(c);
+                return false;
+            }
+        }
+        mClubs.add(club);
+        return true;
+    }
+
+    public boolean addEvent(Event event){
+        for(Event e:mEvents){
+            if(e.getName().equals(event.getName())){
+                mEvents.remove(e);
+                return false;
+            }
+        }
+        mEvents.add(event);
+        return true;
+    }
+
+    public boolean subsClub(Club club){
+        for(Club c:mSubs){
+            if(c.getName().equals(club.getName())){
+                mSubs.remove(c);
+                return false;
+            }
+        }
+        mSubs.add(club);
+        return true;
+    }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
         @Override

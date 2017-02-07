@@ -1,18 +1,21 @@
 package edu.rosehulman.krystal.rhitclub.fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -109,4 +112,54 @@ public class ClubDetailFragment extends Fragment {
             return true;
         }
     }
+
+    private void showEditDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle(R.string.edit);
+        View view = getActivity().getLayoutInflater().inflate(R.layout.edit_dialog,null,false);
+        builder.setView(view);
+//        final EditText titleEdit = (EditText)view.findViewById(R.id.addon_title);
+//        final EditText contentEdit = (EditText) view.findViewById(R.id.addon_content);
+//        if (item!=null){
+//            titleEdit.setText(item.getTitle());
+//            contentEdit.setText(item.getContent());
+//        }
+//
+//
+//        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//                if (item!=null){
+//                    if (titleEdit.getText().toString().length()==0 || contentEdit.getText().toString().length()==0){
+//                        Item newitem = GetRandomString.getRandomItem();
+//                        myAdapter.update(item,newitem.getTitle(),newitem.getContent());
+//                    }else
+//                        myAdapter.update(item,titleEdit.getText().toString(),contentEdit.getText().toString());
+//                }
+//                else {
+//                    Item item=null;
+//                    if (titleEdit.getText().toString().length()==0 || contentEdit.getText().toString().length()==0){
+//                        item =GetRandomString.getRandomItem();}
+//                    else
+//                        item = new Item(titleEdit.getText().toString(), contentEdit.getText().toString());
+//                    item.setUid(user.getUid());
+//                    myAdapter.add(item);
+//                }
+//
+//            }
+//        });
+//        builder.setNegativeButton(android.R.string.cancel, null);
+//        if (item!=null) builder.setNeutralButton(R.string.dialog_del, new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//                myAdapter.remove(item);
+//
+//            }
+//        });
+
+        builder.create().show();
+
+    }
+
+
 }
