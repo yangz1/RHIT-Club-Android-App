@@ -36,6 +36,18 @@
         <TextView
             android:layout_below="@id/event_holder"
             android:text="@string/club"
+            style="@style/SubText"
+            android:id="@+id/event_des" />
+
+        <TextView
+            android:layout_below="@id/event_des"
+            android:text="@string/club"
+            style="@style/SubText"
+            android:id="@+id/event_room" />
+
+        <TextView
+            android:layout_below="@id/event_room"
+            android:text="@string/club"
             style="@style/DetailText"
             android:id="@+id/event_officer" />
 

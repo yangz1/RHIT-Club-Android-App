@@ -8,95 +8,28 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:gravity="center">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             app:srcCompat="@drawable/ic_rose"
             android:id="@+id/imageView"
-            android:layout_marginTop="48dp"
+            android:layout_marginBottom="20dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true" />
 
-        <LinearLayout
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <Button
+            android:id="@+id/sign_in_button"
             android:layout_below="@+id/imageView"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="100dp">
-
-            <ImageView
-                android:layout_width="46dp"
-                android:layout_height="46dp"
-                app:srcCompat="@drawable/ic_mail"
-                />
-
-            <EditText
-                android:id="@+id/username_text"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint="Username" />
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:id="@+id/password_image_edittext"
-            android:orientation="horizontal"
+            android:backgroundTint="@color/darkRed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/imageView"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp">
+            android:text="@string/sign_in"
+            android:textColor="@color/white" />
 
-            <ImageView
-                android:layout_width="46dp"
-                android:layout_height="46dp"
-                app:srcCompat="@drawable/ic_lock"
-                />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint="Password" />
-
-        </LinearLayout>
-
-            <LinearLayout
-                android:paddingTop="30dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/sign_in_button"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/sign_in"
-                    android:textColor="@color/white"
-                    android:layout_weight="1"/>
-
-                <Button
-                    android:id="@+id/register_button"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/register"
-                    android:textColor="@color/white"
-                    android:layout_weight="1"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
     </RelativeLayout>
 
 </FrameLayout>

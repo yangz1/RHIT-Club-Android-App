@@ -38,8 +38,15 @@
             style="@style/DetailText"
             android:id="@+id/club_officer" />
 
-        <ImageView
+        <TextView
             android:layout_below="@id/club_officer"
+            android:text="@string/club"
+            style="@style/DetailText"
+            android:layout_marginTop="3dp"
+            android:id="@+id/club_officeremail" />
+
+        <ImageView
+            android:layout_below="@id/club_officeremail"
             style="@style/ImageStyle"
             app:srcCompat="@drawable/sleeve"
             android:id="@+id/club_detail_image" />

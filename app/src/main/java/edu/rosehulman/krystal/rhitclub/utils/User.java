@@ -15,10 +15,10 @@ import edu.rosehulman.krystal.rhitclub.R;
 public class User implements Parcelable{
 
     private String mName;
+    private boolean isOfficer;
     private List<Club> mClubs;
     private List<Event> mEvents;
     private List<Club> mSubs;
-    private boolean isOfficer;
 
     public User(String mName, List<Club> mClubs, List<Event> mEvents) {
         this.mName = mName;
@@ -32,22 +32,6 @@ public class User implements Parcelable{
         this.mName = in.readString();
         in.readList(mClubs,Club.class.getClassLoader());
         in.readList(mEvents,Event.class.getClassLoader());
-    }
-
-    public List<Club> getmSubs() {
-        return mSubs;
-    }
-
-    public void setmSubs(List<Club> mSubs) {
-        this.mSubs = mSubs;
-    }
-
-    public boolean isOfficer() {
-        return isOfficer;
-    }
-
-    public void setOfficer(boolean officer) {
-        isOfficer = officer;
     }
 
     public boolean addClub(Club club){
@@ -81,6 +65,33 @@ public class User implements Parcelable{
         }
         mSubs.add(club);
         return true;
+    }
+
+    public boolean containsClub(Club club){
+        for(Club c:mClubs){
+            if(c.getName().equals(club.getName())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean containsEvent(Event event){
+        for(Event c:mEvents){
+            if(c.getName().equals(event.getName())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean containsSubs(Club club){
+        for(Club c:mSubs){
+            if(c.getName().equals(club.getName())){
+                return true;
+            }
+        }
+        return false;
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -117,6 +128,22 @@ public class User implements Parcelable{
 
     public void setmEvents(List<Event> mEvents) {
         this.mEvents = mEvents;
+    }
+
+    public List<Club> getmSubs() {
+        return mSubs;
+    }
+
+    public void setmSubs(List<Club> mSubs) {
+        this.mSubs = mSubs;
+    }
+
+    public boolean isOfficer() {
+        return isOfficer;
+    }
+
+    public void setOfficer(boolean officer) {
+        isOfficer = officer;
     }
 
     public static Creator<User> getCREATOR() {

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/dialog_add_event_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/event_name"
+        android:inputType="textCapWords" />
+
+    <EditText
+        android:id="@+id/dialog_add_event_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/holder"
+        android:inputType="textCapWords" />
+
+    <EditText
+        android:id="@+id/dialog_add_event_room"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/room"
+        android:inputType="textCapWords" />
+
+    <EditText
+        android:id="@+id/dialog_add_event_des"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/description"
+        android:inputType="textCapWords" />
+
+
+</LinearLayout>

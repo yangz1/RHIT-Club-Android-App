@@ -2,8 +2,11 @@ package edu.rosehulman.krystal.rhitclub.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GestureDetectorCompat;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
@@ -11,11 +14,16 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import edu.rosehulman.krystal.rhitclub.MainActivity;
 import edu.rosehulman.krystal.rhitclub.R;
+import edu.rosehulman.krystal.rhitclub.utils.GetClubs;
+import edu.rosehulman.krystal.rhitclub.utils.GetEvents;
 import edu.rosehulman.krystal.rhitclub.utils.User;
 import edu.rosehulman.krystal.rhitclub.utils.UserAdapter;
 
-public class MyAccountFragment extends Fragment {
+public class MyAccountFragment extends Fragment{
     private static final String ARG_USER = "user";
 
     private User mUser;
@@ -65,6 +73,9 @@ public class MyAccountFragment extends Fragment {
             }
         });
 
+        TextView mName = (TextView)view.findViewById(R.id.user_name);
+        mName.setText(MainActivity.getUser().getmName());
+
         RecyclerView clubRecyclerView = (RecyclerView)view.findViewById(R.id.my_clubs_recycler);
         RecyclerView eventRecyclerView = (RecyclerView)view.findViewById(R.id.my_events_recycler);
         RecyclerView subsRecyclerView = (RecyclerView)view.findViewById(R.id.my_subs_recycler);
@@ -83,6 +94,8 @@ public class MyAccountFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        actionBar.setTitle("My Account");
         if (context instanceof OnMyAccountSelectedListener) {
             mListener = (OnMyAccountSelectedListener) context;
             mSwipeListener = (ClubDetailFragment.OnFlingListener) context;
@@ -90,6 +103,13 @@ public class MyAccountFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        actionBar.setTitle("My Account");
     }
 
     @Override
@@ -111,5 +131,7 @@ public class MyAccountFragment extends Fragment {
             return true;
         }
     }
+
+
 
 }

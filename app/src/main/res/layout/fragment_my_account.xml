@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     tools:context="edu.rosehulman.krystal.rhitclub.fragments.MyAccountFragment">
 
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -13,6 +14,14 @@
             android:paddingTop="20dp"
             android:text="@string/my_account"
             style="@style/TitleText"/>
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_below="@id/my_account"
+            android:layout_alignRight="@id/my_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/name"/>
 
         <TextView
             android:id="@+id/my_clubs"

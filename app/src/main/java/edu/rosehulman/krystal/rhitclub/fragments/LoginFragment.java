@@ -6,27 +6,23 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
-
-import java.util.Locale;
 
 import edu.rosehulman.krystal.rhitclub.R;
-import edu.rosehulman.krystal.rhitclub.utils.GetData;
-import edu.rosehulman.krystal.rhitclub.utils.User;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class LoginFragment extends Fragment implements GetData.UserConsumer{
+public class LoginFragment extends Fragment{
 
     private OnStartPressedListener mListener;
-    private EditText username;
+    private OnLoginListener mLoginListener;
+    private boolean mLoggingIn;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -35,6 +31,7 @@ public class LoginFragment extends Fragment implements GetData.UserConsumer{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mLoggingIn = false;
     }
 
     @Override
@@ -52,24 +49,31 @@ public class LoginFragment extends Fragment implements GetData.UserConsumer{
 
         //if(savedInstanceState == null){
         Button signInButton = (Button)view.findViewById(R.id.sign_in_button);
-        username = (EditText)view.findViewById(R.id.username_text);
-        Button registerButton = (Button)view.findViewById(R.id.register_button);
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mListener.onStartPressed();
+                loginWithRosefire();
             }
         });
-
         return view;
+    }
+
+    private void loginWithRosefire(){
+        if(mLoggingIn){
+            return;
+        }
+        mLoggingIn = true;
+        mLoginListener.onRosefireLogin();
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        actionBar.setTitle(R.string.app_name);
         if (context instanceof OnStartPressedListener) {
             mListener = (OnStartPressedListener) context;
-
+            mLoginListener = (OnLoginListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnStartPressedListener");
@@ -87,8 +91,26 @@ public class LoginFragment extends Fragment implements GetData.UserConsumer{
         public void onStartPressed();
     }
 
-    @Override
-    public void onUserLoaded(User user) {
-        // TODO
+    public interface OnLoginListener {
+        void onRosefireLogin();
     }
+
+    public void onLoginError(String message) {
+        new AlertDialog.Builder(getActivity())
+                .setTitle(getActivity().getString(R.string.login_error))
+                .setMessage(message)
+                .setPositiveButton(android.R.string.ok, null)
+                .create()
+                .show();
+        mLoggingIn = false;
+    }
+
+    public boolean getLogin(){
+        return mLoggingIn;
+    }
+
+    public OnStartPressedListener getmListener(){
+        return mListener;
+    }
+
 }

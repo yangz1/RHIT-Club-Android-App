@@ -29,11 +29,10 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubAdapter.ViewHolder>{
     private ClubListFragment.OnClubSelectedListener mListener;
     private Context mContext;
 
-    public ClubAdapter(ClubListFragment.OnClubSelectedListener listener,Context context){
+    public ClubAdapter(ClubListFragment.OnClubSelectedListener listener,Context context,List<Club> clubs){
         mListener = listener;
         mContext = context;
-        mClubs = Club.initializeClubs();
-        mClubs.add(new Club("TestClub","This is a test Club","officer: none",R.drawable.sleeve));
+        mClubs = clubs;
     }
 
     @Override
@@ -50,6 +49,16 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Club club = mClubs.get(position);
+        if(MainActivity.getUser().containsClub(club)){
+            holder.addClub.setBackgroundResource(R.drawable.ic_quit);
+        }else{
+            holder.addClub.setBackgroundResource(R.drawable.ic_add_circle_outline_black_48dp);
+        }
+        if(MainActivity.getUser().containsSubs(club)){
+            holder.subscribe.setBackgroundResource(R.drawable.minus);
+        }else{
+            holder.subscribe.setBackgroundResource(R.drawable.ic_flag_black_48dp);
+        }
         holder.clubTextView.setText(club.getName());
     }
 
@@ -67,18 +76,31 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubAdapter.ViewHolder>{
                 @Override
                 public void onClick(View view) {
                     //Show dialog
-                    final boolean flag = MainActivity.getmUser().addClub(mClubs.get(getAdapterPosition()));
+                    final boolean flag = MainActivity.getUser().addClub(mClubs.get(getAdapterPosition()));
                     AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                     if(flag){
                         builder.setTitle(mContext.getResources().getString(R.string.wantClub,mClubs.get(getAdapterPosition()).getName()));
                     }else{
                         builder.setTitle(mContext.getResources().getString(R.string.dontwantClub,mClubs.get(getAdapterPosition()).getName()));
                     }
-                    builder.setPositiveButton(android.R.string.ok,null);
+                    builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            if(flag){
+                                addClub.setBackgroundResource(R.drawable.ic_quit);
+                            }else {
+                                addClub.setBackgroundResource(R.drawable.ic_add_circle_outline_black_48dp);
+                            }
+                        }
+                    });
                     builder.setNegativeButton(android.R.string.cancel,new DialogInterface.OnClickListener(){
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            MainActivity.getmUser().addClub(mClubs.get(getAdapterPosition()));
+                            if(MainActivity.getUser().addClub(mClubs.get(getAdapterPosition()))){
+                                addClub.setBackgroundResource(R.drawable.ic_quit);
+                            }else {
+                                addClub.setBackgroundResource(R.drawable.ic_add_circle_outline_black_48dp);
+                            }
                         }
                     });
                     builder.create().show();
@@ -88,18 +110,31 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubAdapter.ViewHolder>{
             subscribe.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    boolean flag = MainActivity.getmUser().subsClub(mClubs.get(getAdapterPosition()));
+                    final boolean flag = MainActivity.getUser().subsClub(mClubs.get(getAdapterPosition()));
                     AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                     if(flag){
                         builder.setTitle(mContext.getResources().getString(R.string.subsClub,mClubs.get(getAdapterPosition()).getName()));
                     }else{
                         builder.setTitle(mContext.getResources().getString(R.string.dontsubsClub,mClubs.get(getAdapterPosition()).getName()));
                     }
-                    builder.setPositiveButton(android.R.string.ok,null);
+                    builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            if(flag){
+                                subscribe.setBackgroundResource(R.drawable.minus);
+                            }else {
+                                subscribe.setBackgroundResource(R.drawable.ic_flag_black_48dp);
+                            }
+                        }
+                    });
                     builder.setNegativeButton(android.R.string.cancel,new DialogInterface.OnClickListener(){
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            MainActivity.getmUser().subsClub(mClubs.get(getAdapterPosition()));
+                            if(MainActivity.getUser().addClub(mClubs.get(getAdapterPosition()))){
+                                subscribe.setBackgroundResource(R.drawable.minus);
+                            }else {
+                                subscribe.setBackgroundResource(R.drawable.ic_flag_black_48dp);
+                            }
                         }
                     });
                     builder.create().show();

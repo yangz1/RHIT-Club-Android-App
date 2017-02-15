@@ -5,33 +5,44 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import java.util.HashMap;
 
 import edu.rosehulman.krystal.rhitclub.MainActivity;
 import edu.rosehulman.krystal.rhitclub.R;
+import edu.rosehulman.krystal.rhitclub.utils.Club;
+import edu.rosehulman.krystal.rhitclub.utils.Event;
+import edu.rosehulman.krystal.rhitclub.utils.GetClubs;
+import edu.rosehulman.krystal.rhitclub.utils.GetEvents;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomePageFragment extends Fragment {
+public class HomePageFragment extends Fragment{
     private OnHomepageSelectedListener mListener;
-
 
     public HomePageFragment() {
         // Required empty public constructor
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        actionBar.setTitle("Home");
     }
 
     @Override
@@ -53,12 +64,15 @@ public class HomePageFragment extends Fragment {
                 mListener.onEventButtonSelected();
             }
         });
+
         return view;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        actionBar.setTitle("Home");
         if (context instanceof OnHomepageSelectedListener) {
             mListener = (OnHomepageSelectedListener) context;
         } else {

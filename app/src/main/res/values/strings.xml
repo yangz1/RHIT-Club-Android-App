@@ -25,4 +25,18 @@
     <string name="my_subscribes">My Subscribes</string>
     <string name="edit">EDIT</string>
     <string name="add">ADD</string>
+    <string name="name">Name</string>
+    <string name="add_event">Add Event</string>
+    <string name="event_name">Event Name</string>
+    <string name="holder">Holder</string>
+    <string name="edit_event">Edit Event</string>
+    <string name="club_name">Club Name</string>
+    <string name="description">Description</string>
+    <string name="officer">Officer</string>
+    <string name="edit_club">Edit Club</string>
+
+    <string name="rosefire_key">276f0d8c-8b26-4888-8296-23c63a48da25</string>
+    <string name="login_error">Login Error!</string>
+    <string name="officer_email">Officer Email</string>
+    <string name="room">Room</string>
 </resources>

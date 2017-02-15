@@ -1,21 +1,27 @@
 package edu.rosehulman.krystal.rhitclub.fragments;
 
 import android.content.Context;
-import android.net.Uri;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
+import edu.rosehulman.krystal.rhitclub.MainActivity;
 import edu.rosehulman.krystal.rhitclub.R;
 import edu.rosehulman.krystal.rhitclub.utils.Club;
 import edu.rosehulman.krystal.rhitclub.utils.Event;
@@ -26,6 +32,12 @@ public class EventDetailFragment extends Fragment {
     private Event mEvent;
     private ClubDetailFragment.OnFlingListener mListener;
     private GestureDetectorCompat mGest;
+
+    private TextView mEventName;
+    private TextView mEventHolder;
+    private TextView mEventOfficer;
+    private TextView mEventDes;
+    private TextView mEventRoom;
 
     public EventDetailFragment() {
         // Required empty public constructor
@@ -66,14 +78,38 @@ public class EventDetailFragment extends Fragment {
                 return true;
             }
         });
-        TextView eventName = (TextView) view.findViewById(R.id.event_name);
-        TextView eventHolder = (TextView) view.findViewById(R.id.event_holder);
-        TextView eventOfficer = (TextView) view.findViewById(R.id.event_officer);
+        mEventName = (TextView) view.findViewById(R.id.event_name);
+        mEventHolder = (TextView) view.findViewById(R.id.event_holder);
+        mEventOfficer = (TextView) view.findViewById(R.id.event_officer);
         ImageView eventImg = (ImageView) view.findViewById(R.id.event_detail_image);
+        TextView eventedit = (TextView)view.findViewById(R.id.event_edit);
 
-        eventName.setText(mEvent.getName());
-        eventHolder.setText(mEvent.getHolder().getName());
-        eventOfficer.setText(mEvent.getHolder().getOfficer());
+        mEventDes = (TextView) view.findViewById(R.id.event_des);
+        mEventRoom = (TextView) view.findViewById(R.id.event_room);
+
+        mEventName.setText(mEvent.getName());
+        mEventHolder.setText(mEvent.getHolder().getName());
+        mEventOfficer.setText(mEvent.getHolder().getOfficer()+": "+mEvent.getHolder().getOfficerEmail());
+        mEventDes.setText(mEvent.getDes());
+        mEventRoom.setText(mEvent.getRoom());
+
+        if(MainActivity.getUser().isOfficer()
+            // TODO: If the officer hold this event
+                ){
+            if(mEvent.getHolder().getName().equals("ISA")){
+                eventedit.setVisibility(View.VISIBLE);
+                eventedit.setClickable(true);
+                eventedit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        showEditDialog();
+                    }
+                });
+            }
+        }else{
+            eventedit.setVisibility(View.GONE);
+            eventedit.setClickable(false);
+        }
 
         return view;
     }
@@ -103,5 +139,42 @@ public class EventDetailFragment extends Fragment {
             mListener.onSwipe();
             return true;
         }
+    }
+
+    public void showEditDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle(R.string.edit_event);
+        View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_event, null);
+        builder.setView(view);
+        final EditText eventName = (EditText) view.findViewById(R.id.dialog_add_event_name);
+        final EditText eventHolder = (EditText) view.findViewById(R.id.dialog_add_event_holder);
+        final EditText eventRoom = (EditText) view.findViewById(R.id.dialog_add_event_room);
+        final EditText eventDes = (EditText) view.findViewById(R.id.dialog_add_event_des);
+        eventName.setText(mEvent.getName());
+        eventHolder.setText(mEvent.getHolder().getName());
+        eventRoom.setText(mEvent.getRoom());
+        eventDes.setText(mEvent.getDes());
+
+        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                MainActivity main = (MainActivity)getActivity();
+                Club holder = main.findClubByName(eventHolder.getText().toString());
+                if(holder!=null) {
+                    mEvent.setName(eventName.getText().toString());
+                    mEvent.setHolder(holder);
+                    mEvent.setDes(eventDes.getText().toString());
+                    mEvent.setRoom(eventRoom.getText().toString());
+                    mEventName.setText(mEvent.getName());
+                    mEventHolder.setText(mEvent.getHolder().getName());
+                    mEventOfficer.setText(mEvent.getHolder().getOfficer());
+                    mEventDes.setText(mEvent.getDes());
+                    mEventRoom.setText(mEvent.getRoom());
+                }
+                Log.d("Holder is null ","Opps");
+            }
+        });
+        builder.setNegativeButton(android.R.string.cancel, null);
+        builder.create().show();
     }
 }

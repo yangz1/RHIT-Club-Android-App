@@ -5,12 +5,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import edu.rosehulman.krystal.rhitclub.MainActivity;
 import edu.rosehulman.krystal.rhitclub.R;
 import edu.rosehulman.krystal.rhitclub.utils.Club;
 import edu.rosehulman.krystal.rhitclub.utils.ClubAdapter;
@@ -28,7 +31,7 @@ public class ClubListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAdapter = new ClubAdapter(mListener,getContext());
+        mAdapter = new ClubAdapter(mListener,getContext(), ((MainActivity)getActivity()).getClubs());
     }
 
     @Override
@@ -45,6 +48,8 @@ public class ClubListFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        actionBar.setTitle(R.string.club);
         if (context instanceof OnClubSelectedListener) {
             mListener = (OnClubSelectedListener) context;
         } else {
@@ -66,6 +71,8 @@ public class ClubListFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        actionBar.setTitle(R.string.club);
     }
 
 }

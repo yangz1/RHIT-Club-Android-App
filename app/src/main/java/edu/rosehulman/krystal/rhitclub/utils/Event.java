@@ -15,15 +15,39 @@ import edu.rosehulman.krystal.rhitclub.R;
 public class Event implements Parcelable {
     private String name;
     private Club holder;
+    private String des;
+    private String room;
+
+    public String getRoom() {
+        return room;
+    }
+
+    public void setRoom(String room) {
+        this.room = room;
+    }
 
     public Event(String name, Club club) {
         this.name = name;
         this.holder = club;
     }
 
+    public Event(){
+
+    }
+
+    public String getDes() {
+        return des;
+    }
+
+    public void setDes(String des) {
+        this.des = des;
+    }
+
     protected Event(Parcel in){
         this.name = in.readString();
         this.holder = in.readParcelable(Club.class.getClassLoader());
+        this.des = in.readString();
+        this.room = in.readString();
     }
 
     public static final Creator<Event> CREATOR = new Creator<Event>() {
@@ -48,6 +72,8 @@ public class Event implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(name);
         parcel.writeParcelable(holder,i);
+        parcel.writeString(des);
+        parcel.writeString(room);
     }
 
     public String getName() {
@@ -85,8 +111,14 @@ public class Event implements Parcelable {
         // https://upload.wikimedia.org/wikipedia/en/d/d1/Picasso_three_musicians_moma_2006.jpg
 
         List<Event> events = new ArrayList<>();
-        events.add(new Event("Chinese New Year",new Club("ISA","This is a Club for international students.","Andrew Chen: chena@rose-hulman.edu", R.drawable.sleeve)));
-        events.add(new Event("Picnic",new Club("GPE","This is a club for ME and CPE students. Have fun!","John Smith: smithJ@rose-hulman.edu",R.drawable.rhev)));
+        List<Club> clubs = Club.initializeClubs();
+        Event e = new Event("Lunar New Year",clubs.get(0));
+        e.setRoom("Kahn Room - Union");Club club = new Club("ISA","Welcome to International Students Association","Zixuan Yang",R.drawable.sleeve);
+        club.setType("culture");
+        club.setOfficerEmail("yangz1@rose-hulman.edu");
+        e.setHolder(club);
+        e.setDes("This is a traditional Chinese festival! Let's celebrate it! 5:30 p.m.,Feb 24th!");
+        events.add(e);
         return events;
     }
 }

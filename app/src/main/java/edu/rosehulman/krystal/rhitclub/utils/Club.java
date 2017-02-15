@@ -14,8 +14,10 @@ import edu.rosehulman.krystal.rhitclub.R;
 
 public class Club implements Parcelable{
     private String name;
+    private String type;
     private String description;
     private String officer;
+    private String officerEmail;
     private int image;
 
     public Club(String name,String des,String offi,int imag) {
@@ -25,13 +27,17 @@ public class Club implements Parcelable{
         this.image = imag;
     }
 
+    public Club() {
+    }
+
     protected Club(Parcel in){
         this.name = in.readString();
         this.description = in.readString();
         this.officer = in.readString();
         this.image = in.readInt();
+        this.type = in.readString();
+        this.officerEmail = in.readString();
     }
-
 
     public static final Creator<Club> CREATOR = new Creator<Club>() {
         @Override
@@ -45,7 +51,6 @@ public class Club implements Parcelable{
         }
     };
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -57,6 +62,8 @@ public class Club implements Parcelable{
         parcel.writeString(description);
         parcel.writeString(officer);
         parcel.writeInt(image);
+        parcel.writeString(officerEmail);
+        parcel.writeString(type);
     }
 
     public String getName() {
@@ -89,6 +96,22 @@ public class Club implements Parcelable{
 
     public void setImage(int image) {
         this.image = image;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getOfficerEmail() {
+        return officerEmail;
+    }
+
+    public void setOfficerEmail(String officerEmail) {
+        this.officerEmail = officerEmail;
     }
 
     public static List<Club> initializeClubs() {
