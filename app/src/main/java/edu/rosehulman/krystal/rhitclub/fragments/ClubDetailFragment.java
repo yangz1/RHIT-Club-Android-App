@@ -2,6 +2,7 @@ package edu.rosehulman.krystal.rhitclub.fragments;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -24,8 +25,9 @@ import org.w3c.dom.Text;
 import edu.rosehulman.krystal.rhitclub.MainActivity;
 import edu.rosehulman.krystal.rhitclub.R;
 import edu.rosehulman.krystal.rhitclub.utils.Club;
+import edu.rosehulman.krystal.rhitclub.utils.GetImage;
 
-public class ClubDetailFragment extends Fragment {
+public class ClubDetailFragment extends Fragment implements GetImage.ImageConsumer{
     private static final String ARG_CLUB = "club";
 
     private Club mClub;
@@ -36,6 +38,7 @@ public class ClubDetailFragment extends Fragment {
     private TextView mClubDes;
     private TextView mClubOff;
     private TextView mClubemail;
+    private ImageView mImage;
 
     public ClubDetailFragment() {
         // Required empty public constructor
@@ -81,18 +84,21 @@ public class ClubDetailFragment extends Fragment {
         mClubDes = (TextView) view.findViewById(R.id.club_description);
         mClubOff = (TextView) view.findViewById(R.id.club_officer);
         mClubemail = (TextView) view.findViewById(R.id.club_officeremail);
-        ImageView imageView = (ImageView) view.findViewById(R.id.club_detail_image);
+        mImage = (ImageView) view.findViewById(R.id.club_detail_image);
         TextView clubEdit = (TextView)view.findViewById(R.id.club_edit);
 
         mClubName.setText(mClub.getName());
         mClubDes.setText(mClub.getDescription());
-        mClubOff.setText(mClub.getOfficer());
-        mClubemail.setText(mClub.getOfficerEmail());
-        //imageView.setImageResource(mClub.getImage());
+        if(mClub.getManagers().size()!=0){
+            mClubOff.setText(mClub.getManagers().get(0).getTitle().get(mClub.getName())+" -- "+mClub.getManagers().get(0).getmName());
+            mClubemail.setText(mClub.getManagers().get(0).getEmail());
+        }
+        (new GetImage(this)).execute(mClub.getImage());
+
         if(MainActivity.getUser().isOfficer()
             // TODO: If the officer is an Officer of this club
             ){
-            if(mClub.getName().equals("ISA")){
+
                 clubEdit.setVisibility(View.VISIBLE);
                 clubEdit.setClickable(true);
                 clubEdit.setOnClickListener(new View.OnClickListener() {
@@ -101,7 +107,7 @@ public class ClubDetailFragment extends Fragment {
                         showEditDialog();
                     }
                 });
-            }
+
         }else{
             clubEdit.setVisibility(View.GONE);
             clubEdit.setClickable(false);
@@ -124,6 +130,11 @@ public class ClubDetailFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onImageLoaded(Bitmap bitmap) {
+        mImage.setImageBitmap(bitmap);
     }
 
 

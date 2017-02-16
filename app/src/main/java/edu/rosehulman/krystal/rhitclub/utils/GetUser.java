@@ -67,6 +67,7 @@ public class GetUser extends AsyncTask<String, Void, User> {
                 JSONArray signedUp = userinfo.getJSONArray("signed_up");
                 JSONArray subscribed = userinfo.getJSONArray("subscribed");
                 JSONArray managed = userinfo.getJSONArray("manages");
+                JSONArray events = userinfo.getJSONArray("events");
 
                 ArrayList<String> clubs = new ArrayList<>();
                 ArrayList<String> subs = new ArrayList<>();
@@ -81,8 +82,15 @@ public class GetUser extends AsyncTask<String, Void, User> {
                     JSONObject cur = managed.getJSONObject(i);
                     title.put(cur.getString("club_name"),cur.getString("title"));
                 }
+                ArrayList<String> eves = new ArrayList<>();
+                for(int i = 0; i<events.length();i++){
+                    if(!eves.contains(events.getString(i))) {
+                        eves.add(events.getString(i));
+                    }
+                }
 
                 user.setmClubs(clubs);
+                user.setmEvents(eves);
                 user.setmSubs(subs);
                 user.setTitle(title);
             } catch (JSONException e) {

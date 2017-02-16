@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.os.Parcelable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,7 @@ import edu.rosehulman.krystal.rhitclub.fragments.ClubListFragment;
  * Created by KrystalYang on 1/20/17.
  */
 
-public class ClubAdapter extends RecyclerView.Adapter<ClubAdapter.ViewHolder>{
+public class ClubAdapter extends RecyclerView.Adapter<ClubAdapter.ViewHolder> implements PostClub.ChangeConsumer, GetUser.UserConsumer{
 
     private List<Club> mClubs;
     private ClubListFragment.OnClubSelectedListener mListener;
@@ -62,6 +63,17 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubAdapter.ViewHolder>{
         holder.clubTextView.setText(club.getName());
     }
 
+    @Override
+    public void onClubChangeLoaded() {
+        new GetUser(this).execute("https://club-app.csse.rose-hulman.edu/api/users/"+MainActivity.username);
+    }
+
+    @Override
+    public void onUserLoaded(User user) {
+        Log.d("New User: ",user.getmClubs().toString());
+        ((MainActivity)mContext).setUser(user);
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private TextView clubTextView;
         private Button addClub;
@@ -88,7 +100,11 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubAdapter.ViewHolder>{
                         public void onClick(DialogInterface dialogInterface, int i) {
                             if(flag){
                                 addClub.setBackgroundResource(R.drawable.ic_quit);
+                                String[] strings = {"https://club-app.csse.rose-hulman.edu/api/users/"+MainActivity.username+"/clubs/"+mClubs.get(getAdapterPosition()).getName(),"sign","post"};
+                                (new PostClub(ClubAdapter.this)).execute(strings);
                             }else {
+                                String[] strings = {"https://club-app.csse.rose-hulman.edu/api/users/"+MainActivity.username+"/clubs/"+mClubs.get(getAdapterPosition()).getName(),"sign","delete"};
+                                (new PostClub(ClubAdapter.this)).execute(strings);
                                 addClub.setBackgroundResource(R.drawable.ic_add_circle_outline_black_48dp);
                             }
                         }
@@ -98,7 +114,11 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubAdapter.ViewHolder>{
                         public void onClick(DialogInterface dialogInterface, int i) {
                             if(MainActivity.getUser().addClub(mClubs.get(getAdapterPosition()))){
                                 addClub.setBackgroundResource(R.drawable.ic_quit);
+                                String[] strings = {"https://club-app.csse.rose-hulman.edu/api/users/"+MainActivity.username+"/clubs/"+mClubs.get(getAdapterPosition()).getName(),"sign","post"};
+                                (new PostClub(ClubAdapter.this)).execute(strings);
                             }else {
+                                String[] strings = {"https://club-app.csse.rose-hulman.edu/api/users/"+MainActivity.username+"/clubs/"+mClubs.get(getAdapterPosition()).getName(),"sign","delete"};
+                                (new PostClub(ClubAdapter.this)).execute(strings);
                                 addClub.setBackgroundResource(R.drawable.ic_add_circle_outline_black_48dp);
                             }
                         }
@@ -122,8 +142,12 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubAdapter.ViewHolder>{
                         public void onClick(DialogInterface dialogInterface, int i) {
                             if(flag){
                                 subscribe.setBackgroundResource(R.drawable.minus);
+                                String[] strings = {"https://club-app.csse.rose-hulman.edu/api/users/"+MainActivity.username+"/clubs/"+mClubs.get(getAdapterPosition()).getName(),"subscribe","post"};
+                                (new PostClub(ClubAdapter.this)).execute(strings);
                             }else {
                                 subscribe.setBackgroundResource(R.drawable.ic_flag_black_48dp);
+                                String[] strings = {"https://club-app.csse.rose-hulman.edu/api/users/"+MainActivity.username+"/clubs/"+mClubs.get(getAdapterPosition()).getName(),"subscribe","delete"};
+                                (new PostClub(ClubAdapter.this)).execute(strings);
                             }
                         }
                     });
@@ -132,8 +156,12 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubAdapter.ViewHolder>{
                         public void onClick(DialogInterface dialogInterface, int i) {
                             if(MainActivity.getUser().addClub(mClubs.get(getAdapterPosition()))){
                                 subscribe.setBackgroundResource(R.drawable.minus);
+                                String[] strings = {"https://club-app.csse.rose-hulman.edu/api/users/"+MainActivity.username+"/clubs/"+mClubs.get(getAdapterPosition()).getName(),"subscribe","post"};
+                                (new PostClub(ClubAdapter.this)).execute(strings);
                             }else {
                                 subscribe.setBackgroundResource(R.drawable.ic_flag_black_48dp);
+                                String[] strings = {"https://club-app.csse.rose-hulman.edu/api/users/"+MainActivity.username+"/clubs/"+mClubs.get(getAdapterPosition()).getName(),"subscribe","delete"};
+                                (new PostClub(ClubAdapter.this)).execute(strings);
                             }
                         }
                     });

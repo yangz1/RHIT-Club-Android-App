@@ -21,7 +21,7 @@ import edu.rosehulman.krystal.rhitclub.fragments.EventListFragment;
  * Created by KrystalYang on 1/20/17.
  */
 
-public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> {
+public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> implements PostClub.ChangeConsumer, GetUser.UserConsumer{
 
     private List<Event>mEvents;
     private EventListFragment.OnEventSelectedListener mListener;
@@ -63,8 +63,19 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             holder.addEvent.setBackgroundResource(R.drawable.ic_add_circle_outline_black_48dp);
         }
         holder.eventTextView.setText(event.getName());
-        holder.eventHolerView.setText(mContext.getResources().getString(R.string.holder_is,event.getHolder().getName()));
+        holder.eventHolerView.setText(mContext.getResources().getString(R.string.holder_is,event.getHolder()));
         }
+
+    @Override
+    public void onUserLoaded(User user) {
+        Log.d("New User: ",user.getmEvents().toString());
+        ((MainActivity)mContext).setUser(user);
+    }
+
+    @Override
+    public void onClubChangeLoaded() {
+        new GetUser(this).execute("https://club-app.csse.rose-hulman.edu/api/users/"+MainActivity.username);
+    }
 
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -93,8 +104,12 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                         public void onClick(DialogInterface dialogInterface, int i) {
                             if(flag){
                                 addEvent.setBackgroundResource(R.drawable.ic_quit);
+                                String[] strings = {"https://club-app.csse.rose-hulman.edu/api/users/"+MainActivity.username+"/events/"+mEvents.get(getAdapterPosition()).getId(),"event","post"};
+                                (new PostClub(EventAdapter.this)).execute(strings);
                             }else {
                                 addEvent.setBackgroundResource(R.drawable.ic_add_circle_outline_black_48dp);
+                                String[] strings = {"https://club-app.csse.rose-hulman.edu/api/users/"+MainActivity.username+"/events/"+mEvents.get(getAdapterPosition()).getId(),"event","delete"};
+                                (new PostClub(EventAdapter.this)).execute(strings);
                             }
                         }
                     });
@@ -103,8 +118,12 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                         public void onClick(DialogInterface dialogInterface, int i) {
                             if(MainActivity.getUser().addEvent(mEvents.get(getAdapterPosition()))){
                                 addEvent.setBackgroundResource(R.drawable.ic_quit);
+                                String[] strings = {"https://club-app.csse.rose-hulman.edu/api/users/"+MainActivity.username+"/events/"+mEvents.get(getAdapterPosition()).getId(),"event","post"};
+                                (new PostClub(EventAdapter.this)).execute(strings);
                             }else {
                                 addEvent.setBackgroundResource(R.drawable.ic_add_circle_outline_black_48dp);
+                                String[] strings = {"https://club-app.csse.rose-hulman.edu/api/users/"+MainActivity.username+"/events/"+mEvents.get(getAdapterPosition()).getId(),"event","delete"};
+                                (new PostClub(EventAdapter.this)).execute(strings);
                             }
                         }
                     });

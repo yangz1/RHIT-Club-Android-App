@@ -7,15 +7,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.util.HashMap;
 
 import edu.rosehulman.krystal.rhitclub.MainActivity;
 
@@ -23,29 +20,21 @@ import edu.rosehulman.krystal.rhitclub.MainActivity;
  * Created by KrystalYang on 2/15/17.
  */
 
-public class PostClub extends AsyncTask<String, Void, Void  > {
-    private PostClub.ChangeConsumer mUser;
+public class DeleteClub extends AsyncTask<String, Void, Void  > {
 
-    public PostClub(ChangeConsumer activity){
-        this.mUser = activity;
-    }
+    private DeleteClub.DeleteConsumer mUser;
 
     @Override
     protected Void doInBackground(String... strings) {
         String urlString = strings[0];
         String flag = strings[1];
-        String mode = strings[2];
-        Log.d("TAG",urlString+"  "+flag+"  "+mode);
+        Log.d("TAG",urlString+"  "+flag);
 
         URL url = null;
         try {
             url = new URL(urlString);
             HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-            if(mode == "post"){
-                conn.setRequestMethod("POST");
-            }else{
-                conn.setRequestMethod("DELETE");
-            }
+            conn.setRequestMethod("DELETE");
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setRequestProperty("Cookie", "token=" + MainActivity.token);
             conn.setDoOutput(true);
@@ -55,7 +44,7 @@ public class PostClub extends AsyncTask<String, Void, Void  > {
             JSONObject ob = new JSONObject();
             if(flag == "sign"){
                 ob.put("type","sign_up");
-            }else if (flag == "subscribe"){
+            }else{
                 ob.put("type","subscribe");
             }
             outputPost.write(ob.toString().getBytes("UTF-8"));
@@ -65,7 +54,6 @@ public class PostClub extends AsyncTask<String, Void, Void  > {
             int responseCode = conn.getResponseCode();
             Log.d("Response Message",conn.getResponseMessage());
             Log.d("ResponseCode",""+responseCode);
-
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -82,10 +70,10 @@ public class PostClub extends AsyncTask<String, Void, Void  > {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        mUser.onClubChangeLoaded();
+        mUser.onClubDeleteLoaded();
     }
 
-    public interface ChangeConsumer{
-        public void onClubChangeLoaded();
+    public interface DeleteConsumer{
+        public void onClubDeleteLoaded();
     }
 }

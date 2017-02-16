@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,6 +17,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -93,15 +95,18 @@ public class GetClubs extends AsyncTask<String, Void, HashMap<String,Club>  > {
                     }
                     ArrayList<User> mang = new ArrayList<>();
                     for(int i =0;i<managers.length();i++){
-                        mang.add(new User(managers.getJSONObject(i).getString("rose_username"),
+                        User u = new User(managers.getJSONObject(i).getString("rose_username"),
                                 managers.getJSONObject(i).getString("name"),
                                 club_name,
-                                managers.getJSONObject(i).getString("title")));
+                                managers.getJSONObject(i).getString("title"));
+                        u.setEmail(managers.getJSONObject(i).getString("email"));
+                        mang.add(u);
                     }
 
                     club.setName(club_name);
                     club.setType(club_type);
                     club.setDescription(club_description);
+
                     if(mang.size()!=0){
                         club.setOfficer(mang.get(0).getmName());
                         club.setOfficerEmail(mang.get(0).getEmail());
@@ -110,12 +115,11 @@ public class GetClubs extends AsyncTask<String, Void, HashMap<String,Club>  > {
                     club.setMembers(memb);
                     club.setSubscribers(subs);
                     club.setManagers(mang);
-                    if(files.length()!=0){
-                        club.setImage(files.getString(0));
+                    if(files.length()!=0) {
+                        String unescaped = StringEscapeUtils.unescapeJson(files.getJSONObject(0).getString("value"));
+                        club.setImage(unescaped);
+                        Log.d("URL",unescaped);
                     }
-
-                    Log.d("Club Load",club_name);
-
                     map.put(club_name,club);
                 }
 

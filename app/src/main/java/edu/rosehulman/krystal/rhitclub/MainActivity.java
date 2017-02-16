@@ -121,6 +121,10 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnS
         return mUser;
     }
 
+    public void setUser(User us){
+        mUser = us;
+    }
+
     public List<Club> getClubs() {
         return clubs;
     }
@@ -292,7 +296,6 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnS
         for(String c:club.keySet()){
             clubs.add(club.get(c));
         }
-        completeFlag1 = true;
         Log.d("Clubs",clubs.toString());
     }
 
@@ -302,13 +305,8 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnS
         for(String e:event.keySet()){
             Event eve = event.get(e);
             eve.setRoom("Kahn Room - Union");
-            Club club = new Club("ISA","Welcome to International Students Association","Zixuan Yang","Sleeve");
-            club.setType("culture");
-            club.setOfficerEmail("yangz1@rose-hulman.edu");
-            eve.setHolder(club);
             events.add(eve);
         }
-        completeFlag2 = true;
     }
 
     @Override

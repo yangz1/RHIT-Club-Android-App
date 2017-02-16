@@ -48,33 +48,27 @@ public class User implements Parcelable{
     public boolean addClub(Club club){
         for(String c:mClubs){
             if(c.equals(club.getName())){
-                mClubs.remove(c);
                 return false;
             }
         }
-        mClubs.add(club.getName());
         return true;
     }
 
     public boolean addEvent(Event event){
         for(String e:mEvents){
             if(e.equals(event.getName())){
-                mEvents.remove(e);
                 return false;
             }
         }
-        mEvents.add(event.getName());
         return true;
     }
 
     public boolean subsClub(Club club){
         for(String c:mSubs){
             if(c.equals(club.getName())){
-                mSubs.remove(c);
                 return false;
             }
         }
-        mSubs.add(club.getName());
         return true;
     }
 

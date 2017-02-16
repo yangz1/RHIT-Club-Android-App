@@ -88,15 +88,14 @@ public class EventDetailFragment extends Fragment {
         mEventRoom = (TextView) view.findViewById(R.id.event_room);
 
         mEventName.setText(mEvent.getName());
-        mEventHolder.setText(mEvent.getHolder().getName());
-        mEventOfficer.setText(mEvent.getHolder().getOfficer()+": "+mEvent.getHolder().getOfficerEmail());
+        mEventHolder.setText(mEvent.getHolder());
+        //mEventOfficer.setText(mEvent.getHolder().getOfficer()+": "+mEvent.getHolder().getOfficerEmail());
         mEventDes.setText(mEvent.getDes());
         mEventRoom.setText(mEvent.getRoom());
 
         if(MainActivity.getUser().isOfficer()
             // TODO: If the officer hold this event
                 ){
-            if(mEvent.getHolder().getName().equals("ISA")){
                 eventedit.setVisibility(View.VISIBLE);
                 eventedit.setClickable(true);
                 eventedit.setOnClickListener(new View.OnClickListener() {
@@ -105,7 +104,7 @@ public class EventDetailFragment extends Fragment {
                         showEditDialog();
                     }
                 });
-            }
+
         }else{
             eventedit.setVisibility(View.GONE);
             eventedit.setClickable(false);
@@ -151,7 +150,7 @@ public class EventDetailFragment extends Fragment {
         final EditText eventRoom = (EditText) view.findViewById(R.id.dialog_add_event_room);
         final EditText eventDes = (EditText) view.findViewById(R.id.dialog_add_event_des);
         eventName.setText(mEvent.getName());
-        eventHolder.setText(mEvent.getHolder().getName());
+        eventHolder.setText(mEvent.getHolder());
         eventRoom.setText(mEvent.getRoom());
         eventDes.setText(mEvent.getDes());
 
@@ -159,18 +158,18 @@ public class EventDetailFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 MainActivity main = (MainActivity)getActivity();
-                Club holder = main.findClubByName(eventHolder.getText().toString());
-                if(holder!=null) {
+                //Club holder = main.findClubByName(eventHolder.getText().toString());
+                //if(holder!=null) {
                     mEvent.setName(eventName.getText().toString());
-                    mEvent.setHolder(holder);
+                    mEvent.setHolder(eventHolder.getText().toString());
                     mEvent.setDes(eventDes.getText().toString());
                     mEvent.setRoom(eventRoom.getText().toString());
                     mEventName.setText(mEvent.getName());
-                    mEventHolder.setText(mEvent.getHolder().getName());
-                    mEventOfficer.setText(mEvent.getHolder().getOfficer());
+                    mEventHolder.setText(eventHolder.getText().toString());
+                    //mEventOfficer.setText(holder.getOfficer());
                     mEventDes.setText(mEvent.getDes());
                     mEventRoom.setText(mEvent.getRoom());
-                }
+                //}
                 Log.d("Holder is null ","Opps");
             }
         });

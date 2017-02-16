@@ -111,16 +111,13 @@ public class EventListFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 MainActivity main = (MainActivity)getActivity();
-                Club holder = main.findClubByName(eventHolder.getText().toString());
+                //Club holder = main.findClubByName(eventHolder.getText().toString());
                 //if(holder!=null) {
-                    Log.d("Holder!=null ",holder.getName());
-                    Event e = new Event(eventName.getText().toString(), holder);
+                    //Log.d("Holder!=null ",holder.getName());
+                    Event e = new Event(eventName.getText().toString(), eventHolder.getText().toString());
                     e.setRoom(eventRoom.getText().toString());
                     e.setDes(eventDes.getText().toString());
                     mAdapter.addNewEvent(e);
-//                }else {
-//                    Log.d("Holder is null ", "Opps");
-//                }
             }
         });
         builder.setNegativeButton(android.R.string.cancel, null);
