@@ -37,6 +37,8 @@
             android:layout_below="@id/event_holder"
             android:text="@string/club"
             style="@style/SubText"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
             android:id="@+id/event_des" />
 
         <TextView

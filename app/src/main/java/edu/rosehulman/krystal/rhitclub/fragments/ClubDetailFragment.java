@@ -88,7 +88,7 @@ public class ClubDetailFragment extends Fragment {
         mClubDes.setText(mClub.getDescription());
         mClubOff.setText(mClub.getOfficer());
         mClubemail.setText(mClub.getOfficerEmail());
-        imageView.setImageResource(mClub.getImage());
+        //imageView.setImageResource(mClub.getImage());
         if(MainActivity.getUser().isOfficer()
             // TODO: If the officer is an Officer of this club
             ){

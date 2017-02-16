@@ -18,9 +18,13 @@ public class Club implements Parcelable{
     private String description;
     private String officer;
     private String officerEmail;
-    private int image;
+    private boolean isOfficer;
+    private ArrayList<String> members = new ArrayList<>();
+    private ArrayList<String> subscribers = new ArrayList<>();
+    private ArrayList<User> managers = new ArrayList<>();
+    private String image;
 
-    public Club(String name,String des,String offi,int imag) {
+    public Club(String name,String des,String offi,String imag) {
         this.name = name;
         this.officer = offi;
         this.description = des;
@@ -34,9 +38,12 @@ public class Club implements Parcelable{
         this.name = in.readString();
         this.description = in.readString();
         this.officer = in.readString();
-        this.image = in.readInt();
+        this.image = in.readString();
         this.type = in.readString();
         this.officerEmail = in.readString();
+        in.readStringList(members);
+        in.readStringList(subscribers);
+        in.readList(managers,User.class.getClassLoader());
     }
 
     public static final Creator<Club> CREATOR = new Creator<Club>() {
@@ -61,9 +68,12 @@ public class Club implements Parcelable{
         parcel.writeString(name);
         parcel.writeString(description);
         parcel.writeString(officer);
-        parcel.writeInt(image);
+        parcel.writeString(image);
         parcel.writeString(officerEmail);
         parcel.writeString(type);
+        parcel.writeStringList(members);
+        parcel.writeStringList(subscribers);
+        parcel.writeList(managers);
     }
 
     public String getName() {
@@ -90,11 +100,11 @@ public class Club implements Parcelable{
         this.officer = officer;
     }
 
-    public int getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(int image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
@@ -114,27 +124,36 @@ public class Club implements Parcelable{
         this.officerEmail = officerEmail;
     }
 
-    public static List<Club> initializeClubs() {
-        // https://commons.wikimedia.org/wiki/Leonardo_da_Vinci#/media/File:Leonardo_da_Vinci_-_Mona_Lisa.jpg
-        // By Leonardo da Vinci - (Upload Sept. 19, 2010) Au plus près des oeuvres ! - http://musee.louvre.fr/zoom/index.html (Microsoft Silverlight required), Public Domain, https://commons.wikimedia.org/w/index.php?curid=51499
-
-        // https://upload.wikimedia.org/wikipedia/commons/d/d8/Hands_of_God_and_Adam.jpg
-
-        // By Vincent van Gogh - bgEuwDxel93-Pg at Google Cultural Institute, zoom level maximum, Public Domain, https://commons.wikimedia.org/w/index.php?curid=25498286
-
-        // https://upload.wikimedia.org/wikipedia/commons/1/14/Claude_Monet_-_Water_Lilies_-_Google_Art_Project.jpg
-
-        //https://commons.wikimedia.org/wiki/File%3ARembrandt_Harmensz_van_Rijn_-_Return_of_the_Prodigal_Son_-_Google_Art_Project.jpg
-        //Rembrandt [Public domain], via Wikimedia Commons
-        // Alternate: http://www.everypainterpaintshimself.com/article/rembrandts_raising_of_the_cross
-
-        // https://upload.wikimedia.org/wikipedia/commons/d/d7/Meisje_met_de_parel.jpg
-
-        // https://upload.wikimedia.org/wikipedia/en/d/d1/Picasso_three_musicians_moma_2006.jpg
-
-        List<Club> clubs = new ArrayList<>();
-        clubs.add(new Club("ISA","This is a Club for international students.","Andrew Chen: chena@rose-hulman.edu", R.drawable.sleeve));
-        clubs.add(new Club("GPE","This is a club for ME and CPE students. Have fun!","John Smith: smithJ@rose-hulman.edu",R.drawable.rhev));
-        return clubs;
+    public ArrayList<String> getMembers() {
+        return members;
     }
+
+    public void setMembers(ArrayList<String> members) {
+        this.members = members;
+    }
+
+    public ArrayList<String> getSubscribers() {
+        return subscribers;
+    }
+
+    public void setSubscribers(ArrayList<String> subscribers) {
+        this.subscribers = subscribers;
+    }
+
+    public boolean isOfficer() {
+        return isOfficer;
+    }
+
+    public void setisOfficer(boolean officer) {
+        isOfficer = officer;
+    }
+
+    public ArrayList<User> getManagers() {
+        return managers;
+    }
+
+    public void setManagers(ArrayList<User> managers) {
+        this.managers = managers;
+    }
+
 }

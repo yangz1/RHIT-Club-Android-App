@@ -30,6 +30,7 @@ import edu.rosehulman.krystal.rhitclub.utils.Club;
 import edu.rosehulman.krystal.rhitclub.utils.Event;
 import edu.rosehulman.krystal.rhitclub.utils.GetClubs;
 import edu.rosehulman.krystal.rhitclub.utils.GetEvents;
+import edu.rosehulman.krystal.rhitclub.utils.GetUser;
 import edu.rosehulman.krystal.rhitclub.utils.User;
 import edu.rosehulman.rosefire.Rosefire;
 import edu.rosehulman.rosefire.RosefireResult;
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnS
         ClubListFragment.OnClubSelectedListener, HomePageFragment.OnHomepageSelectedListener,
         EventListFragment.OnEventSelectedListener, ClubDetailFragment.OnFlingListener,
         MyAccountFragment.OnMyAccountSelectedListener, LoginFragment.OnLoginListener,
-        GetClubs.ClubsConsumer,GetEvents.EventsConsumer{
+        GetClubs.ClubsConsumer,GetEvents.EventsConsumer, GetUser.UserConsumer{
 
     private static final int RC_ROSEFIRE_LOGIN = 1;
     private LoginFragment mLoginFrag;
@@ -49,7 +50,9 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnS
     private List<Club> clubs;
     private List<Event> events;
     public static String token;
-    private String username;
+    public static String username;
+    private boolean completeFlag1=false;
+    private boolean completeFlag2=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +61,6 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnS
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mUser = new User("Krystal",Club.initializeClubs(),Event.initializeEvents());
         clubs = new ArrayList<>();
         events = new ArrayList<>();
 
@@ -274,11 +276,15 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnS
     public String getToken(){
         return token;
     }
+    public String getUsername(){
+        return username;
+    }
 
     public void initial(){
         (new GetClubs(this)).execute("https://club-app.csse.rose-hulman.edu/api/clubs/");
         (new GetEvents(this)).execute("https://club-app.csse.rose-hulman.edu/api/events/");
-        }
+        (new GetUser(this)).execute("https://club-app.csse.rose-hulman.edu/api/users/"+username);
+    }
 
     @Override
     public void onClubsLoaded(HashMap<String,Club> club) {
@@ -286,6 +292,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnS
         for(String c:club.keySet()){
             clubs.add(club.get(c));
         }
+        completeFlag1 = true;
         Log.d("Clubs",clubs.toString());
     }
 
@@ -295,12 +302,17 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnS
         for(String e:event.keySet()){
             Event eve = event.get(e);
             eve.setRoom("Kahn Room - Union");
-            Club club = new Club("ISA","Welcome to International Students Association","Zixuan Yang",R.drawable.sleeve);
+            Club club = new Club("ISA","Welcome to International Students Association","Zixuan Yang","Sleeve");
             club.setType("culture");
             club.setOfficerEmail("yangz1@rose-hulman.edu");
             eve.setHolder(club);
             events.add(eve);
         }
+        completeFlag2 = true;
+    }
 
+    @Override
+    public void onUserLoaded(User user) {
+        mUser = user;
     }
 }

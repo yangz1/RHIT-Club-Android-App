@@ -16,6 +16,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,7 +49,7 @@ public class GetClubs extends AsyncTask<String, Void, HashMap<String,Club>  > {
             HttpURLConnection conn = (HttpURLConnection)url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-Type", "application/json");
-            //conn.setRequestProperty("Cookie", "token=" + MainActivity.token);
+            conn.setRequestProperty("Cookie", "token=" + MainActivity.token);
 
             int responseCode = conn.getResponseCode();
             Log.d("Response Message",conn.getResponseMessage());
@@ -61,42 +62,66 @@ public class GetClubs extends AsyncTask<String, Void, HashMap<String,Club>  > {
             while ((inputLine = in.readLine()) != null) {
                 response.append(inputLine);
             }
+
             String result = response.toString();
-
-            int i =18;
-            int j =result.length()-2;
-            result = result.substring(i,j+1);
-            Log.d("Club Result",result);
-
-            JSONArray jsonarray = null;
+            Log.d("Club Result1",result);
             try {
-                jsonarray = new JSONArray(result);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            for (int t = 0; t < jsonarray.length(); t++) {
-                JSONObject jsonobject = null;
-                Club club = new Club();
-                try {
-                    jsonobject = jsonarray.getJSONObject(t);
+                JSONObject res = new JSONObject(result);
+                JSONArray clubs = res.getJSONArray("clubs");
+                Log.d("Club Result2",clubs.toString());
+
+                for (int t = 0; t < clubs.length(); t++) {
+                    JSONObject jsonobject = null;
+                    Club club = new Club();
+                    jsonobject = clubs.getJSONObject(t);
                     String club_name = jsonobject.getString("club_name");
                     String club_type = jsonobject.getString("club_type");
                     String club_description = jsonobject.getString("club_description");
-                    String club_off = jsonobject.getString("managers");
-                    JSONArray off = new JSONArray(club_off);
-                    JSONObject offi = off.getJSONObject(0);
-                    String officer = "Title: "+offi.getString("title")+"--"+offi.getString("name");
-                    String officeremail = offi.getString("email");
+                    JSONArray members = jsonobject.getJSONArray("members");
+                    JSONArray subscribers = jsonobject.getJSONArray("subscribers");
+                    boolean isOff = jsonobject.getString("officer").equals("true");
+                    JSONArray managers = jsonobject.getJSONArray("managers");
+                    JSONArray files = jsonobject.getJSONArray("club_files");
+
+                    ArrayList<String> memb = new ArrayList<>();
+                    ArrayList<String> subs = new ArrayList<>();
+                    for(int i =0;i<members.length();i++){
+                        memb.add(members.getString(i));
+                    }
+                    for(int i =0;i<subscribers.length();i++){
+                        subs.add(subscribers.getString(i));
+                    }
+                    ArrayList<User> mang = new ArrayList<>();
+                    for(int i =0;i<managers.length();i++){
+                        mang.add(new User(managers.getJSONObject(i).getString("rose_username"),
+                                managers.getJSONObject(i).getString("name"),
+                                club_name,
+                                managers.getJSONObject(i).getString("title")));
+                    }
+
                     club.setName(club_name);
                     club.setType(club_type);
                     club.setDescription(club_description);
-                    club.setOfficer(officer);
-                    club.setOfficerEmail(officeremail);
+                    if(mang.size()!=0){
+                        club.setOfficer(mang.get(0).getmName());
+                        club.setOfficerEmail(mang.get(0).getEmail());
+                    }
+                    club.setisOfficer(isOff);
+                    club.setMembers(memb);
+                    club.setSubscribers(subs);
+                    club.setManagers(mang);
+                    if(files.length()!=0){
+                        club.setImage(files.getString(0));
+                    }
+
                     Log.d("Club Load",club_name);
+
                     map.put(club_name,club);
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
             in.close();
         } catch (MalformedURLException e) {

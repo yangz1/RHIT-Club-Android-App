@@ -18,8 +18,6 @@ import android.widget.TextView;
 
 import edu.rosehulman.krystal.rhitclub.MainActivity;
 import edu.rosehulman.krystal.rhitclub.R;
-import edu.rosehulman.krystal.rhitclub.utils.GetClubs;
-import edu.rosehulman.krystal.rhitclub.utils.GetEvents;
 import edu.rosehulman.krystal.rhitclub.utils.User;
 import edu.rosehulman.krystal.rhitclub.utils.UserAdapter;
 

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.rosehulman.krystal.rhitclub.MainActivity;
 import edu.rosehulman.krystal.rhitclub.R;
 import edu.rosehulman.krystal.rhitclub.fragments.EventListFragment;
 import edu.rosehulman.krystal.rhitclub.fragments.MyAccountFragment;
@@ -22,8 +23,8 @@ import static edu.rosehulman.krystal.rhitclub.R.string.event;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
-    private List<Club> mClubs;
-    private List<Event> mEvents;
+    private List<String> mClubs;
+    private List<String> mEvents;
     private MyAccountFragment.OnMyAccountSelectedListener mListener;
     private Context mContext;
     private boolean isClub;
@@ -32,16 +33,16 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         mListener=listener;
         mContext=context;
         isClub=flag;
-        mEvents=Event.initializeEvents();
-        mClubs=Club.initializeClubs();
+        mEvents=MainActivity.getUser().getmEvents();
+        mClubs=MainActivity.getUser().getmClubs();
     }
 
-    public void setmEvents(List<Event> mEvents) {
+    public void setmEvents(List<String> mEvents) {
         this.mEvents = mEvents;
         notifyDataSetChanged();
     }
 
-    public void setmClubs(List<Club> mClubs) {
+    public void setmClubs(List<String> mClubs) {
         this.mClubs = mClubs;
         notifyDataSetChanged();
     }
@@ -65,11 +66,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     public void onBindViewHolder(UserAdapter.ViewHolder holder,int position){
         String s ="";
         if(isClub){
-            Club club=mClubs.get(position);
-            s = club.getName();
+            s=mClubs.get(position);
         }else{
-            Event event=mEvents.get(position);
-            s = event.getName();
+            s=mEvents.get(position);
         }
         holder.eventOrClub.setText(s);
     }
